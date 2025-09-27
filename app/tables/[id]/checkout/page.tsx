@@ -230,7 +230,7 @@ export default function CheckoutPage({
               href={`/tables/${tableId}`}
               className="rounded-2xl border border-transparent bg-[#2f6b4f] px-4 py-2 font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:bg-[#255842]"
             >
-              Back to table order
+              ← Back to table order
             </Link>
           </div>
         </div>
@@ -325,7 +325,7 @@ export default function CheckoutPage({
                 Quick shortcuts from popular categories.
               </p>
 
-              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2">
                 {MENU_ITEMS.slice(0, 6).map((item) => (
                   <button
                     key={item.id}

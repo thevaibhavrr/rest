@@ -303,10 +303,10 @@ export default function TableOrderingPage({
               <p className="text-[#2f6b4f]">{itemCount} item{itemCount === 1 ? "" : "s"} selected</p>
             </div>
             <Link
-              href="/"
+              href="/home"
               className="rounded-2xl border border-transparent bg-[#2f6b4f] px-4 py-2 font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:bg-[#255842]"
             >
-              Back to tables
+              ← Back to tables
             </Link>
           </div>
         </div>
@@ -375,7 +375,7 @@ export default function TableOrderingPage({
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2">
               {filteredItems.map((item) => {
                 const quantity = selectedItems[item.id] ?? 0;
                 const hasQuantity = quantity > 0;
