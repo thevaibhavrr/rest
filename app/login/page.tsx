@@ -39,7 +39,7 @@ export default function LoginPage() {
         
         if (now < expiryTime) {
           // Still valid, redirect to home
-          router.push("/");
+          router.push("/home");
           return;
         } else {
           // Expired, clear storage
@@ -80,7 +80,7 @@ export default function LoginPage() {
         
         // Redirect after short delay
         setTimeout(() => {
-          router.push("/");
+          router.push("/home");
         }, 1000);
       } catch (error) {
         setStatus("error");
