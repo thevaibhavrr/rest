@@ -1,21 +1,21 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 import {
   TABLES_PRESET,
-  TABLE_IMAGE_URL,
   type TableRecord,
   type TableStatus,
   type TableZone,
 } from "../data/tables";
+import { MENU_ITEMS } from "../data/menu";
 
 const AUTH_STORAGE_KEY = "rural-bites-auth";
 const AUTH_EXPIRY_DAYS = 1;
 const LAST_ZONE_STORAGE_KEY = "rural-bites-last-zone";
+const DRAFT_SAVE_INTERVAL = 30000; // 30 seconds
 
 const ZONE_FILTERS: { id: TableZone | "all"; label: string }[] = [
   { id: "all", label: "All areas" },
@@ -124,6 +124,7 @@ export default function HomePage() {
     return stored ?? "all";
   });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [lastSaved, setLastSaved] = useState<string | null>(null);
   const router = useRouter();
 
   // Check authentication on mount
@@ -152,6 +153,33 @@ export default function HomePage() {
       router.push("/login");
     }
   }, [router]);
+
+  // Auto-save functionality
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const saveDraft = () => {
+      try {
+        const draftData = {
+          tables: TABLES_PRESET,
+          timestamp: new Date().toISOString(),
+          staff: activeStaff,
+        };
+        localStorage.setItem("rural-bites-draft", JSON.stringify(draftData));
+        setLastSaved(new Date().toLocaleTimeString());
+      } catch (error) {
+        console.error("Failed to save draft:", error);
+      }
+    };
+
+    // Save immediately on mount
+    saveDraft();
+
+    // Set up auto-save interval
+    const interval = setInterval(saveDraft, DRAFT_SAVE_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated, activeStaff]);
 
   const handleLogout = () => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
@@ -204,6 +232,7 @@ export default function HomePage() {
     (table) => table.id === highlightedTableId
   );
   const staffNameLabel = activeStaff ? activeStaff.toUpperCase() : "WAITER";
+  const totalProducts = MENU_ITEMS.length;
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#fef9f3] via-[#f5efe0] to-[#e7f2ea] px-1 py-12 text-[#273036]">
@@ -219,23 +248,30 @@ export default function HomePage() {
       </div>
 
       <div className="relative z-10 w-full max-w-6xl space-y-8">
-        {/* Header with logout */}
-        <header className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold text-[#273036] sm:text-4xl">
-              Rural Bites Service Desk
-            </h1>
-            <p className="mt-2 text-sm text-[#4f5d63]">
-              Welcome back, {staffNameLabel}
-            </p>
+        {/* Header with product count and auto-save status */}
+        <div className="flex items-center justify-between rounded-3xl border border-white/60 bg-white/75 px-6 py-4 shadow-xl shadow-[#c0d8cc]/40 backdrop-blur">
+          <div className="flex items-center gap-4">
+            <h1 className="text-2xl font-bold text-[#273036]">Restaurant Dashboard</h1>
+            <div className="flex items-center gap-2 rounded-full bg-[#f1f8f3] px-3 py-1 text-sm font-semibold text-[#2f6b4f]">
+              <span className="h-2 w-2 rounded-full bg-[#2f6b4f]"></span>
+              {totalProducts} Products
+            </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="rounded-2xl border border-[#d6e4d8] bg-white/80 px-4 py-2 text-sm font-semibold text-[#2f6b4f] shadow transition hover:bg-[#f1f4f2]"
-          >
-            Logout
-          </button>
-        </header>
+          <div className="flex items-center gap-4">
+            {lastSaved && (
+              <div className="flex items-center gap-2 text-xs text-[#5d6b72]">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                Auto-saved at {lastSaved}
+              </div>
+            )}
+            <button
+              onClick={handleLogout}
+              className="rounded-full bg-[#2f6b4f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1e4a3a]"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
 
         <section className="rounded-3xl border border-white/60 bg-white/75 py-6 shadow-xl shadow-[#c0d8cc]/40 backdrop-blur">
           <div className="no-scrollbar -mx-1 mb-5 flex gap-2 overflow-x-auto px-1 py-1">
@@ -309,17 +345,15 @@ export default function HomePage() {
                           : ""
                       }`}
                     >
-                      <div className="relative aspect-[4/3]">
-                        <Image
-                          src={TABLE_IMAGE_URL}
-                          alt={`Top view of ${table.name}`}
-                          fill
-                          sizes="(max-width: 768px) 45vw, (max-width: 1200px) 20vw, 260px"
-                          className={`object-cover transition duration-300 ${
-                            isOccupied ? "grayscale brightness-[0.68]" : ""
-                          } group-hover:scale-[1.02]`}
-                          priority
-                        />
+                      <div className="relative aspect-[4/3] flex items-center justify-center">
+                        {/* Table Number Display */}
+                        <div className={`flex items-center justify-center w-full h-full text-6xl font-bold transition duration-300 ${
+                          isOccupied 
+                            ? "text-white/90" 
+                            : "text-[#2f6b4f]"
+                        }`}>
+                          {table.id}
+                        </div>
                         <div
                           className={`absolute inset-0 ${
                             isOccupied

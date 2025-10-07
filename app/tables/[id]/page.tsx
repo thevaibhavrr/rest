@@ -283,28 +283,28 @@ export default function TableOrderingPage({
         />
       </div>
 
-      <header className="relative z-10 border-b border-white/40 bg-white/60 px-4 py-6 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <header className="relative z-10 border-b border-white/40 bg-white/60 px-4 py-4 backdrop-blur sm:py-6">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="text-center sm:text-left">
             <p className="text-xs font-semibold uppercase tracking-wide text-[#2f6b4f]">
               Table Service · Rural Bites
             </p>
-            <h1 className="mt-1 text-2xl font-semibold text-[#273036] sm:text-3xl">
+            <h1 className="mt-1 text-xl font-semibold text-[#273036] sm:text-2xl lg:text-3xl">
               {table.name}
             </h1>
-            <p className="mt-1 text-sm text-[#4f5d63]">
+            <p className="mt-1 text-xs text-[#4f5d63] sm:text-sm">
               Seats {table.seats}. Last billed {formatCurrency(table.total)}. {table.status === "occupied" ? "Guests on table." : "Ready to seat new guests."}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-[#4f5d63]">
-            <div className="rounded-2xl border border-[#d6e4d8] bg-white/80 px-4 py-2">
-              <p className="font-semibold text-[#273036]">Order tally</p>
-              <p className="text-[#2f6b4f]">{itemCount} item{itemCount === 1 ? "" : "s"} selected</p>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <div className="rounded-2xl border border-[#d6e4d8] bg-white/80 px-3 py-2 text-center sm:text-left">
+              <p className="text-xs font-semibold text-[#273036] sm:text-sm">Order tally</p>
+              <p className="text-xs text-[#2f6b4f] sm:text-sm">{itemCount} item{itemCount === 1 ? "" : "s"} selected</p>
             </div>
             <Link
               href="/home"
-              className="rounded-2xl border border-transparent bg-[#2f6b4f] px-4 py-2 font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:bg-[#255842]"
+              className="rounded-2xl border border-transparent bg-[#2f6b4f] px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:bg-[#255842] sm:px-4 sm:text-sm"
             >
               ← Back to tables
             </Link>
@@ -312,9 +312,9 @@ export default function TableOrderingPage({
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-6 px-4 py-6 pb-28 sm:flex-row sm:items-start sm:pb-10">
-        <div className="flex-1 space-y-6">
-          <nav className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
+      <main className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col gap-4 px-4 py-4 pb-28 sm:flex-row sm:items-start sm:gap-6 sm:py-6 sm:pb-10">
+        <div className="flex-1 space-y-4 sm:space-y-6">
+          <nav className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {CATEGORY_PRESETS.map((category) => {
               const isActive = activeCategory === category.id;
               return (
@@ -322,7 +322,7 @@ export default function TableOrderingPage({
                   key={category.id}
                   type="button"
                   onClick={() => setActiveCategory(category.id)}
-                  className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f6b4f] sm:text-sm ${
+                  className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f6b4f] sm:px-4 sm:py-2 sm:text-sm ${
                     isActive
                       ? "bg-[#2f6b4f] text-white shadow-lg shadow-[#8dc69b]/40"
                       : "bg-white/80 text-[#2f6b4f] shadow"
@@ -334,15 +334,15 @@ export default function TableOrderingPage({
             })}
           </nav>
 
-          <div className="rounded-3xl border border-white/60 bg-white/80 p-4 shadow-lg shadow-[#c0d8cc]/40 backdrop-blur">
-            <label className="flex items-center gap-3 rounded-2xl border border-[#d6e4d8] bg-white/70 px-3 py-2 text-sm text-[#4f5d63]">
+          <div className="rounded-3xl border border-white/60 bg-white/80 p-3 shadow-lg shadow-[#c0d8cc]/40 backdrop-blur sm:p-4">
+            <label className="flex items-center gap-2 rounded-2xl border border-[#d6e4d8] bg-white/70 px-3 py-2 text-sm text-[#4f5d63] sm:gap-3">
               <span className="text-[#2f6b4f]">🔍</span>
               <input
                 type="search"
                 value={searchTerm}
                 onChange={(event) => setSearchTerm(event.target.value)}
                 placeholder="Search for dishes or keywords"
-                className="w-full bg-transparent text-sm text-[#273036] outline-none placeholder:text-[#8fa2a9]"
+                className="w-full bg-transparent text-xs text-[#273036] outline-none placeholder:text-[#8fa2a9] sm:text-sm"
               />
               {searchTerm.length > 0 && (
                 <button
@@ -365,17 +365,17 @@ export default function TableOrderingPage({
 
           <section className="space-y-4">
             <div className="flex flex-col gap-1">
-              <h2 className="text-lg font-semibold text-[#273036] sm:text-xl">
+              <h2 className="text-base font-semibold text-[#273036] sm:text-lg lg:text-xl">
                 {activeCategory === "all"
                   ? "Recommended for the table"
                   : CATEGORY_PRESETS.find((category) => category.id === activeCategory)?.label}
               </h2>
-              <p className="text-sm text-[#4f5d63]">
+              <p className="text-xs text-[#4f5d63] sm:text-sm">
                 {filteredItems.length} item{filteredItems.length === 1 ? "" : "s"} available.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {filteredItems.map((item) => {
                 const quantity = selectedItems[item.id] ?? 0;
                 const hasQuantity = quantity > 0;
@@ -385,7 +385,7 @@ export default function TableOrderingPage({
                     key={item.id}
                     className="group relative overflow-hidden rounded-3xl border border-white/60 bg-white/80 shadow-lg shadow-[#c0d8cc]/40 backdrop-blur transition-transform hover:-translate-y-1"
                   >
-                    <div className="relative h-40 w-full overflow-hidden">
+                    <div className="relative h-40 w-full overflow-hidden sm:h-48">
                       <Image
                         src={item.image}
                         alt={item.name}
@@ -409,36 +409,36 @@ export default function TableOrderingPage({
                       </div>
                     </div>
 
-                    <div className="space-y-3 px-4 py-4">
+                    <div className="space-y-2 px-3 py-3 sm:space-y-3 sm:px-4 sm:py-4">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <h3 className="text-base font-semibold text-[#273036]">
+                          <h3 className="text-sm font-semibold text-[#273036] sm:text-base">
                             {item.name}
                           </h3>
-                          <p className="mt-1 text-sm text-[#4f5d63]">
+                          <p className="mt-1 text-xs text-[#4f5d63] sm:text-sm">
                             {item.description}
                           </p>
                         </div>
-                        <span className="whitespace-nowrap text-sm font-semibold text-[#2f6b4f]">
+                        <span className="whitespace-nowrap text-xs font-semibold text-[#2f6b4f] sm:text-sm">
                           {formatCurrency(item.price)}
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-xs text-[#6a787f]">
-                          <span className="rounded-full bg-[#f1f4f2] px-2 py-1 text-[#2f6b4f]">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
+                          <span className="rounded-full bg-[#f1f4f2] px-2 py-1 text-xs text-[#2f6b4f]">
                             {item.category}
                           </span>
-                          <span>Prep {item.category === "mains" ? "20" : "12"} min</span>
+                          <span className="text-xs text-[#6a787f]">Prep {item.category === "mains" ? "20" : "12"} min</span>
                         </div>
 
                         <div className="flex items-center gap-2">
                           {hasQuantity ? (
-                            <div className="flex items-center gap-2 rounded-full bg-[#f1f4f2] px-3 py-1 text-sm font-semibold text-[#2f6b4f]">
+                            <div className="flex items-center gap-1 rounded-full bg-[#f1f4f2] px-2 py-1 text-xs font-semibold text-[#2f6b4f] sm:gap-2 sm:px-3 sm:text-sm">
                               <button
                                 type="button"
                                 onClick={() => handleQuantityChange(item.id, -1)}
-                                className="text-lg leading-none"
+                                className="text-sm leading-none sm:text-lg"
                                 aria-label={`Reduce quantity of ${item.name}`}
                               >
                                 −
@@ -447,7 +447,7 @@ export default function TableOrderingPage({
                               <button
                                 type="button"
                                 onClick={() => handleQuantityChange(item.id, 1)}
-                                className="text-lg leading-none"
+                                className="text-sm leading-none sm:text-lg"
                                 aria-label={`Increase quantity of ${item.name}`}
                               >
                                 +
@@ -457,7 +457,7 @@ export default function TableOrderingPage({
                             <button
                               type="button"
                               onClick={() => handleQuantityChange(item.id, 1)}
-                              className="rounded-full bg-gradient-to-r from-[#3d8c66] via-[#2f6b4f] to-[#246048] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:scale-[1.02]"
+                              className="rounded-full bg-gradient-to-r from-[#3d8c66] via-[#2f6b4f] to-[#246048] px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:scale-[1.02] sm:px-4 sm:py-2"
                             >
                               Add to order
                             </button>
@@ -470,7 +470,7 @@ export default function TableOrderingPage({
               })}
 
               {filteredItems.length === 0 && (
-                <p className="col-span-full rounded-3xl border border-dashed border-[#d6e4d8] bg-white/70 px-4 py-6 text-center text-sm text-[#4f5d63]">
+                <p className="col-span-full rounded-3xl border border-dashed border-[#d6e4d8] bg-white/70 px-3 py-4 text-center text-xs text-[#4f5d63] sm:px-4 sm:py-6 sm:text-sm">
                   No dishes match your filters. Try switching categories or clearing the search.
                 </p>
               )}
@@ -479,10 +479,10 @@ export default function TableOrderingPage({
         </div>
 
         {isSummaryOpen && (
-          <aside className="sticky bottom-0 z-20 space-y-4 self-stretch rounded-3xl border border-white/60 bg-white/85 px-4 py-5 text-sm text-[#273036] shadow-lg shadow-[#c0d8cc]/30 backdrop-blur sm:top-6 sm:min-w-[260px] sm:max-w-[280px] sm:self-start">
+          <aside className="fixed bottom-0 left-0 right-0 z-20 space-y-3 rounded-t-3xl border border-white/60 bg-white/95 px-4 py-4 text-sm text-[#273036] shadow-lg shadow-[#c0d8cc]/30 backdrop-blur sm:sticky sm:top-6 sm:min-w-[260px] sm:max-w-[280px] sm:self-start sm:rounded-3xl sm:space-y-4 sm:px-4 sm:py-5">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold">Order summary</h2>
+                <h2 className="text-base font-semibold sm:text-lg">Order summary</h2>
                 <p className="text-xs text-[#4f5d63]">
                   Review before printing KOT or sending prep call to the kitchen.
                 </p>
@@ -498,13 +498,13 @@ export default function TableOrderingPage({
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {sortedSelectedEntries.length === 0 ? (
-                <p className="rounded-2xl bg-[#f1f4f2] px-3 py-4 text-xs text-[#4f5d63]">
-                  Nothing added yet. Tap “Add to order” to build the guest bill.
+                <p className="rounded-2xl bg-[#f1f4f2] px-3 py-3 text-xs text-[#4f5d63] sm:py-4">
+                  Nothing added yet. Tap "Add to order" to build the guest bill.
                 </p>
               ) : (
-                <ul className="max-h-50 space-y-3 overflow-y-auto pr-1">
+                <ul className="max-h-32 space-y-2 overflow-y-auto pr-1 sm:max-h-50 sm:space-y-3">
                   {sortedSelectedEntries.map(([itemId, count]) => {
                     const menuItem = MENU_ITEMS.find((item) => item.id === itemId);
                     if (!menuItem) {
@@ -512,12 +512,12 @@ export default function TableOrderingPage({
                     }
 
                     return (
-                      <li key={itemId} className="flex items-start justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-semibold">{menuItem.name}</p>
+                      <li key={itemId} className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold truncate sm:text-sm">{menuItem.name}</p>
                           <p className="text-xs text-[#6a787f]">Qty {count}</p>
                         </div>
-                        <span className="text-sm font-semibold text-[#2f6b4f]">
+                        <span className="text-xs font-semibold text-[#2f6b4f] sm:text-sm">
                           {formatCurrency(menuItem.price * count)}
                         </span>
                       </li>
@@ -531,7 +531,7 @@ export default function TableOrderingPage({
             <button
               type="button"
               onClick={handleSaveDraft}
-              className="w-full rounded-2xl border border-[#d6e4d8] bg-white/70 px-4 py-3 text-sm font-semibold text-[#2f6b4f] shadow transition hover:scale-[1.01]"
+              className="w-full rounded-2xl border border-[#d6e4d8] bg-white/70 px-3 py-2 text-xs font-semibold text-[#2f6b4f] shadow transition hover:scale-[1.01] sm:px-4 sm:py-3 sm:text-sm"
             >
               Save draft
             </button>
@@ -545,7 +545,7 @@ export default function TableOrderingPage({
             <button
               type="button"
               onClick={handleGoToCheckout}
-              className="w-full rounded-2xl bg-gradient-to-r from-[#3d8c66] via-[#2f6b4f] to-[#246048] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-2xl bg-gradient-to-r from-[#3d8c66] via-[#2f6b4f] to-[#246048] px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-[#8dc69b]/40 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-50 sm:px-4 sm:py-3 sm:text-sm"
               disabled={itemCount === 0}
             >
               Go to checkout
@@ -558,12 +558,12 @@ export default function TableOrderingPage({
         <button
           type="button"
           onClick={() => setIsSummaryOpen(true)}
-          className="fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-[#2f6b4f] px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-[#8dc69b]/40 transition hover:scale-[1.05]"
+          className="fixed bottom-4 right-4 z-30 flex items-center gap-1.5 rounded-full bg-[#2f6b4f] px-3 py-2 text-xs font-semibold text-white shadow-xl shadow-[#8dc69b]/40 transition hover:scale-[1.05] sm:bottom-6 sm:right-6 sm:gap-2 sm:px-4 sm:py-3 sm:text-sm"
           aria-label="Reopen order summary"
         >
           Open summary
           {itemCount > 0 && (
-            <span className="rounded-full bg-white/20 px-2 py-0.5 text-xs">
+            <span className="rounded-full bg-white/20 px-1.5 py-0.5 text-xs sm:px-2">
               {itemCount} item{itemCount === 1 ? "" : "s"}
             </span>
           )}
